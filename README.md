@@ -1,6 +1,6 @@
 # Magento Dockerizer
 
-> **Version:** 0.1.0
+> **Version:** 0.2.0
 
 Project to deploy a Magento Open Source project locally using Docker Containers
 
@@ -19,6 +19,7 @@ bash ./bin/setup
 - Apache v2.4.x
 - PHP v8.1.x
 - Composer v2.x
+- MySQL v8.0
 - Elasticsearch : [v7.17.8](https://www.elastic.co/guide/en/elasticsearch/reference/7.17/docker.html)
 
 ## Using `mage` utility
