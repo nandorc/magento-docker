@@ -1,0 +1,15 @@
+services:
+  web:
+    image: magento-host:1.0.0
+    build: ./
+    ports:
+      - 80:80
+      - 8080:8080
+    volumes:
+      - ./magento-app:/magento-app
+    depends_on:
+      - search-engine
+  search-engine:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.8
+    environment:
+      - discovery.type=single-node

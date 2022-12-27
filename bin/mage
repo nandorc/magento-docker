@@ -1,0 +1,19 @@
+#!/bin/bash
+
+[ -f mage ] && [ ! -d ../magento-app ] && mkdir ../magento-app
+[ -f ./bin/mage ] && [ ! -d ./magento-app ] && mkdir ./magento-app
+[ ${#} -eq 0 ] && echo -e "ERR~ No command to execute" && exit 1
+
+if [ "${1}" == "up" ]; then
+  shift
+  docker compose up ${@}
+elif [ "${1}" == "down" ]; then
+  shift
+  docker compose down ${@}
+elif [ "${1}" == "restart" ]; then
+  shift
+  docker compose restart ${@}
+else
+  docker compose exec --user magento web ${@}
+fi
+exit 0

@@ -1,0 +1,5 @@
+#!/bin/bash
+
+alias_command="alias mage='[ -f mage ] && bash mage || bash ./bin/mage'"
+[ ! -f ~/.bash_aliases ] && touch ~/.bash_aliases
+[ -z "$(cat ~/.bash_aliases | grep "^${alias_command}")" ] && echo "${alias_command}" >>~/.bash_aliases && newgrp
