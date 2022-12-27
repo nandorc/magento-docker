@@ -8,8 +8,23 @@ services:
     volumes:
       - ./magento-app:/magento-app
     depends_on:
+      - db
       - search-engine
+
+  db:
+    image: mysql:8.0
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+    ports:
+      - 3306:3306
+    volumes:
+      - db-volume:/var/lib/mysql
+
   search-engine:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.17.8
     environment:
       - discovery.type=single-node
+volumes:
+  db-volume:
