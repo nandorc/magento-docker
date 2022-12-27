@@ -1,6 +1,6 @@
 # Magento Dockerizer
 
-> **Version:** 0.1.0
+> **Version:** 0.2.0
 
 Project to deploy a Magento Open Source project locally using Docker Containers
 
