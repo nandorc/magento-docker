@@ -19,6 +19,16 @@ elif [ "${1}" == "ps" ]; then
 elif [ "${1}" == "mysql" ]; then
   shift
   docker compose exec db mysql ${@}
+elif [ "${1}" == "magento" ]; then
+  shift
+  docker compose exec --user magento web ./bin/magento ${@}
+elif [ "${1}" == "perms" ]; then
+  shift
+  docker compose exec --user magento web chown -R :www-data .
+  docker compose exec --user magento web find . -type f ! -name "*.*" ! -perm 0775 -exec chmod -c 0775 {} +
+  docker compose exec --user magento web find . -type f -name "*.sh" ! -perm 0775 -exec chmod -c 0775 {} +
+  docker compose exec --user magento web find . -type f ! -perm "-u=x" ! -perm 0664 -exec chmod -c 0664 {} +
+  docker compose exec --user magento web find . -type d ! -perm 2775 -exec chmod -c 2775 {} +
 else
   docker compose exec --user magento web ${@}
 fi
