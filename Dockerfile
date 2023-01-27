@@ -17,11 +17,12 @@ RUN apt-get -y update \
 COPY ./etc/apache/* /etc/apache2/sites-available/
 COPY ./etc/php/* /var/www/
 
-RUN a2ensite site-vhost.conf search-engine-proxy.conf \
+RUN a2ensite info-vhost.conf search-engine-proxy.conf \
   && chmod +x /var/www/php-ini-conf.sh \
   && bash /var/www/php-ini-conf.sh \
   && rm -fv /var/www/php-ini-conf.sh \
-  && mv /var/www/phpinfo.php /var/www/html/ \
+  && mv /var/www/html /var/www/info \
+  && mv /var/www/phpinfo.php /var/www/info/ \
   && bash /var/www/composer-install.sh \
   && rm -fv /var/www/composer-install.sh
 
