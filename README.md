@@ -56,7 +56,7 @@ Any command executed using `mage` command is done through `docker compose exec` 
 #!/bin/bash
 
 # Start services
-mage up -d
+mage up -d --build
 ```
 
 ### 1. Create database
@@ -112,7 +112,7 @@ mage composer create-project --repository-url=https://repo.magento.com/ magento/
 mage perms
 
 # Install Magento App
-mage magento setup:install --base-url=http://test.magento.localhost/ --db-host=db --db-name=magento_test --db-user=magento --db-password=magento --search-engine=elasticsearch7 --elasticsearch-host=search-engine --elasticsearch-port=9200 --use-rewrites=1 --cleanup-database
+mage magento setup:install --base-url=http://localhost/ --db-host=db --db-name=magento_test --db-user=magento --db-password=magento --search-engine=elasticsearch7 --elasticsearch-host=search-engine --elasticsearch-port=9200 --use-rewrites=1 --cleanup-database
 
 # Install Magento Cron Tab
 mage magento cron:install --force
@@ -121,4 +121,4 @@ mage magento cron:run
 
 ### 4. Test Access to Magento App
 
-Access on you browser to [test.magento.localhost](http://test.magento.localhost) and you must see Magento App home page.
+Access on you browser to [localhost](http://localhost) and you must see Magento App home page.
