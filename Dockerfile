@@ -3,7 +3,7 @@ FROM ubuntu:22.04
 
 RUN apt-get update \
   && apt-get upgrade -y \
-  && apt-get install -y software-properties-common zip unzip
+  && apt-get install -y software-properties-common zip unzip cron
 
 ARG DEBIAN_FRONTEND=noninteractive
 
@@ -11,7 +11,7 @@ RUN apt-get -y update \
   && add-apt-repository -y ppa:ondrej/php \
   && apt-add-repository -y ppa:ondrej/apache2 \
   && apt-get -y update \
-  && apt-get install -y apache2 libapache2-mod-security2 php8.1 php8.1-bcmath php8.1-common php8.1-curl php8.1-xml php8.1-gd php8.1-intl php8.1-mbstring php8.1-mysql php8.1-soap php8.1-zip php8.1-imagick php8.1-mcrypt php8.1-ssh2 cron \
+  && apt-get install -y apache2 libapache2-mod-security2 php8.1 php8.1-bcmath php8.1-common php8.1-curl php8.1-xml php8.1-gd php8.1-intl php8.1-mbstring php8.1-mysql php8.1-soap php8.1-zip php8.1-imagick php8.1-mcrypt php8.1-ssh2 \
   && a2enmod deflate expires headers rewrite security2 ssl proxy_http
 
 COPY ./etc/apache/* /etc/apache2/sites-available/
