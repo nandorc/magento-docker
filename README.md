@@ -15,7 +15,7 @@ bash ./bin/setup
 
 ## Devenlopment Environment Components Versions
 
-- Adobe Commerce CE (Magento) v2.4.5
+- Adobe Commerce CE (Magento) v2.4.6
 - Apache v2.4.x
 - PHP v8.1.x
 - Composer v2.x
@@ -106,7 +106,7 @@ Go to [Magento Marketplace](https://marketplace.magento.com/) and create a pair 
 #!/bin/bash
 
 # Create Magento v2.4.5 project using your Magento Marketplaces Access Keys
-mage composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition=2.4.5 .
+mage composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition=2.4.6 .
 
 # Update files/folders default permission and property
 mage perms
