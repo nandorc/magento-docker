@@ -1,7 +1,7 @@
 #!/bin/bash
 
-[ -f mage ] && [ ! -d ../magento-app ] && mkdir ../magento-app
-[ -f ./bin/mage ] && [ ! -d ./magento-app ] && mkdir ./magento-app
+cd $(echo "${0}" | sed -e "s/mage/../")
+[ ! -d ./magento-app ] && mkdir ./magento-app && echo -e "INF~ magento-app folder created" && docker compose restart web
 [ ${#} -eq 0 ] && echo -e "ERR~ No command to execute" && exit 1
 
 if [ "${1}" == "up" ]; then
