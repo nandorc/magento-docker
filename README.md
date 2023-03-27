@@ -1,6 +1,6 @@
 # Magento Dockerizer
 
-> **Version:** 1.4.1
+> **Version:** 1.4.2
 
 Project to deploy Magento Open Source locally using Docker Containers. Supported and installed components are:
 
