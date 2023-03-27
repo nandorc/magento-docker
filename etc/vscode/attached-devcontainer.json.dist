@@ -20,6 +20,7 @@
     "zobo.php-intellisense"
   ],
   "settings": {
-    "intelephense.environment.phpVersion": "8.1.0"
-  }
+    "intelephense.environment.phpVersion": "8.1.0",
+  },
+  "postAttachCommand": "bash -l -i"
 }

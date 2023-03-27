@@ -16,6 +16,9 @@ elif [ "${1}" == "restart" ]; then
 elif [ "${1}" == "ps" ]; then
   shift
   docker compose ps ${@}
+elif [ "${1}" == "bash" ]; then
+  shift
+  docker compose exec --user magento web bash -l -i
 elif [ "${1}" == "mysql" ]; then
   shift
   docker compose exec db mysql ${@}
