@@ -55,8 +55,11 @@ RUN source /home/magento/.bashrc \
   && nvm install 18.15.0
 SHELL ["/bin/bash", "--login", "-c"]
 
-# Container config
+# Magento extra utilities
 USER root
+COPY --chmod=755 ./etc/magento/mageperms /usr/local/bin/
+
+# Container config
 WORKDIR /magento-app
 EXPOSE 80 8080
 CMD [ "apachectl", "-D", "FOREGROUND" ]
