@@ -16,6 +16,7 @@ bash ./bin/setup
 ## Devenlopment Environment Components Versions
 
 - Adobe Commerce CE (Magento) v2.4.6
+- Git v2.x
 - Apache v2.4.x
 - PHP v8.1.x
 - Composer v2.x
