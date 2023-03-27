@@ -1,7 +1,7 @@
 #!/bin/bash
 
-[ -f mage ] && [ ! -d ../magento-app ] && mkdir ../magento-app
-[ -f ./bin/mage ] && [ ! -d ./magento-app ] && mkdir ./magento-app
+cd $(echo "${0}" | sed -e "s/mage/../")
+[ ! -d ./magento-app ] && mkdir ./magento-app && echo -e "INF~ magento-app folder created" && docker compose restart web
 [ ${#} -eq 0 ] && echo -e "ERR~ No command to execute" && exit 1
 
 if [ "${1}" == "up" ]; then
@@ -16,19 +16,12 @@ elif [ "${1}" == "restart" ]; then
 elif [ "${1}" == "ps" ]; then
   shift
   docker compose ps ${@}
+elif [ "${1}" == "bash" ]; then
+  shift
+  docker compose exec --user magento web bash -l -i
 elif [ "${1}" == "mysql" ]; then
   shift
   docker compose exec db mysql ${@}
-elif [ "${1}" == "magento" ]; then
-  shift
-  docker compose exec --user magento web ./bin/magento ${@}
-elif [ "${1}" == "perms" ]; then
-  shift
-  docker compose exec --user magento web chown -R :www-data .
-  docker compose exec --user magento web find . -type f ! -name "*.*" ! -perm 0775 -exec chmod -c 0775 {} +
-  docker compose exec --user magento web find . -type f -name "*.sh" ! -perm 0775 -exec chmod -c 0775 {} +
-  docker compose exec --user magento web find . -type f ! -perm "-u=x" ! -perm 0664 -exec chmod -c 0664 {} +
-  docker compose exec --user magento web find . -type d ! -perm 2775 -exec chmod -c 2775 {} +
 else
   docker compose exec --user magento web ${@}
 fi

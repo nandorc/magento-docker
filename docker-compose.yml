@@ -7,6 +7,7 @@ services:
       - 8080:8080
     volumes:
       - ./magento-app:/magento-app
+      - web-user-volume:/home/magento
     depends_on:
       - db
       - search-engine
@@ -28,3 +29,4 @@ services:
       - discovery.type=single-node
 volumes:
   db-volume:
+  web-user-volume:

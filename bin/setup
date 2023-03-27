@@ -12,9 +12,10 @@ if [ -n "${WINDIR}" ]; then
   fi
 fi
 
-alias_command="alias mage='[ -f mage ] && bash mage || bash ./bin/mage'"
+alias_command='last_mage_path=""; [ -f ./mage ] && last_mage_path="./mage"; [ -f ./bin/mage ] && last_mage_path="./bin/mage"; [ -z "${last_mage_path}" ] && echo "ERR~ mage not found" || $last_mage_path'
 [ ! -f ~/.bash_aliases ] && touch ~/.bash_aliases
-[ -z "$(cat ~/.bash_aliases | grep "alias mage")" ] && echo "${alias_command}" >>~/.bash_aliases
+[ -n "$(cat ~/.bash_aliases | grep "^alias mage=")" ] && sed -i -e "/^alias mage=/d" ~/.bash_aliases
+echo "alias mage='${alias_command}'" >>~/.bash_aliases
 
 if [ $? -eq 0 ]; then
   [ -n "${WINDIR}" ] && echo -e "WRN~ Must close and reopen window to apply changes or type 'source ~/.bash_aliases'" || newgrp
