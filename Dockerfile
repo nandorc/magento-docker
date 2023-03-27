@@ -44,7 +44,7 @@ RUN bash /home/magento/composer-install.sh \
 COPY --chown=magento:magento --chmod=644 ./etc/git/* /home/magento/
 RUN add-apt-repository -y ppa:git-core/ppa \
   && apt-get update \
-  && apt-get install -y git \
+  && apt-get install -y git git-core bash-completion \
   && echo '[ -f ~/git-style.sh ] && source ~/git-style.sh' >>/home/magento/.bash_aliases
 
 # Node and NPM
