@@ -2,18 +2,7 @@
 
 > **Version:** 1.3.0
 
-Project to deploy a Magento Open Source project locally using Docker Containers
-
-## Getting started
-
-```bash
-#!/bin/bash
-
-# Setup mage alias
-bash ./bin/setup
-```
-
-## Devenlopment Environment Components Versions
+Project to deploy Magento Open Source locally using Docker Containers. Supported and installed components are:
 
 - Adobe Commerce CE (Magento) v2.4.6
 - Git v2.x
@@ -26,8 +15,13 @@ bash ./bin/setup
 
 ## Using `mage` utility
 
+On `bin` folder, `mage` utility can be found. It allows user to interact with **docker compose** services easily. Follow codeblock shows main commands related with `mage` utility
+
 ```bash
 #!/bin/bash
+
+# Setup mage alias
+bash ./bin/setup
 
 # Start services
 #   Additional args from docker compose up are received
@@ -39,14 +33,18 @@ mage down
 # Restart services
 mage restart
 
-# Connect to web server terminal
+# See currently running services
+mage ps
+
+# Log in to web-service terminal
 mage bash
 
-# Run composer command at magento-app directory
-mage composer
+# Log in to mysql-service terminal
+#   Parameters for mysql connection are received
+mage mysql
 ```
 
-Any command executed using `mage` command is done through `docker compose exec` command using `magento` user.
+Any other command executed using `mage` command is done through `docker compose exec` command using `magento` user on `web` service, so if the command `mage ls -a /magento-app` is executed, a list of files and folders (`ls -a` command) located at `/magento-app` directory inside web container are shown
 
 ## Installing new Magento App
 
@@ -107,18 +105,22 @@ Go to [Magento Marketplace](https://marketplace.magento.com/) and create a pair 
 ```bash
 #!/bin/bash
 
-# Create Magento v2.4.5 project using your Magento Marketplaces Access Keys
-mage composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition=2.4.6 .
+# Log in web container
+mage bash
+
+# Create Magento v2.4.6 project using your Magento Marketplaces Access Keys
+composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition=2.4.6 .
 
 # Update files/folders default permission and property
-mage perms
+mageperms .
 
 # Install Magento App
-mage magento setup:install --base-url=http://localhost/ --db-host=db --db-name=magento_test --db-user=magento --db-password=magento --search-engine=elasticsearch7 --elasticsearch-host=search-engine --elasticsearch-port=9200 --use-rewrites=1 --cleanup-database
+#   Add any other needed params on install (see documentation at https://experienceleague.adobe.com/docs/commerce-operations/installation-guide/advanced.html?lang=en)
+bin/magento setup:install --base-url=http://localhost/ --db-host=db --db-name=magento_test --db-user=magento --db-password=magento --search-engine=elasticsearch7 --elasticsearch-host=search-engine --elasticsearch-port=9200 --use-rewrites=1 --cleanup-database
 
 # Install Magento Cron Tab
-mage magento cron:install --force
-mage magento cron:run
+bin/magento cron:install --force
+bin/magento cron:run
 ```
 
 ### 4. Test Access to Magento App
