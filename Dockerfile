@@ -5,7 +5,7 @@ FROM ubuntu:22.04
 ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update \
   && apt-get upgrade -y \
-  && apt-get install -y software-properties-common zip unzip cron
+  && apt-get install -y software-properties-common zip unzip cron curl wget
 
 # User config
 RUN echo "umask 0002" >> /etc/profile \
@@ -41,13 +41,22 @@ RUN bash /home/magento/composer-install.sh \
   && rm -fv /home/magento/composer-install.sh
 
 # Git config
+COPY --chown=magento:magento --chmod=644 ./etc/git/* /home/magento/
 RUN add-apt-repository -y ppa:git-core/ppa \
   && apt-get update \
   && apt-get install -y git \
   && echo '[ -f ~/git-style.sh ] && source ~/git-style.sh' >>/home/magento/.bash_aliases
-COPY --chown=magento:magento --chmod=644 ./etc/git/* /home/magento/
+
+# Node and NPM
+USER magento
+SHELL ["/bin/bash", "--login", "-i", "-c"]
+RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
+RUN source /home/magento/.bashrc \
+  && nvm install 18.15.0
+SHELL ["/bin/bash", "--login", "-c"]
 
 # Container config
+USER root
 WORKDIR /magento-app
 EXPOSE 80 8080
 CMD [ "apachectl", "-D", "FOREGROUND" ]
