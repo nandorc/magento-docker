@@ -5,6 +5,7 @@ services:
     ports:
       - 80:80
       - 8080:8080
+      - 8000:8000
     volumes:
       - ./magento-app:/magento-app
       - web-user-volume:/home/magento

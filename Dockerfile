@@ -59,7 +59,10 @@ SHELL ["/bin/bash", "--login", "-c"]
 USER root
 COPY --chmod=755 ./etc/magento/mageperms /usr/local/bin/
 
+# Add packages for grunt tests
+RUN apt-get install -y libgconf-2-4 libatk1.0-0 libatk-bridge2.0-0 libgdk-pixbuf2.0-0 libgtk-3-0 libgbm-dev libnss3-dev libxss-dev libasound2
+
 # Container config
 WORKDIR /magento-app
-EXPOSE 80 8080
+EXPOSE 80 8080 8000
 CMD [ "apachectl", "-D", "FOREGROUND" ]
