@@ -1,0 +1,20 @@
+#!/bin/bash
+
+cd /magento-app
+
+# 1. Update repository
+bin/magento maintenance:enable
+git restore .
+
+# 2. Update dependencies
+composer i
+git restore .
+
+# 3. Deliver changes
+bin/magento app:config:import
+bin/magento setup:upgrade
+bin/magento setup:di:compile
+
+# 4. Finish
+bin/magento cache:flush
+bin/magento maintenance:disable

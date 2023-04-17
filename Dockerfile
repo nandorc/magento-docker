@@ -54,14 +54,14 @@ RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | b
 RUN source /home/magento/.bashrc \
   && nvm install 18.15.0
 SHELL ["/bin/bash", "--login", "-c"]
-
-# Magento extra utilities
 USER root
-COPY --chmod=755 ./etc/magento/mageperms /usr/local/bin/
 
 # Add packages for grunt tests
 RUN apt-get update \
   && apt-get install -y libgconf-2-4 libatk1.0-0 libatk-bridge2.0-0 libgdk-pixbuf2.0-0 libgtk-3-0 libgbm-dev libnss3-dev libxss-dev libasound2 libxshmfence1 libglu1
+
+# Magento extra utilities
+COPY --chmod=755 ./etc/magento/* /usr/local/bin/
 
 # Container config
 WORKDIR /magento-app
