@@ -12,6 +12,7 @@ RUN echo "umask 0002" >> /etc/profile \
   && echo "umask 0002" >> /etc/bash.bashrc \
   && groupadd --gid 1000 magento \
   && useradd --uid 1000 --gid magento --create-home magento \
+  && usermod --shell /bin/bash magento \
   && touch /home/magento/.bash_aliases \
   && chown magento:magento /home/magento/.bash_aliases
 
