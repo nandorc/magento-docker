@@ -1,6 +1,6 @@
 # Magento Dockerizer
 
-> **Version:** 1.5.0
+> **Version:** 1.6.0
 
 Project to deploy Magento Open Source locally using Docker Containers. Supported and installed components are:
 
@@ -12,6 +12,7 @@ Project to deploy Magento Open Source locally using Docker Containers. Supported
 - MySQL v8.0
 - Elasticsearch : [v7.17.8](https://www.elastic.co/guide/en/elasticsearch/reference/7.17/docker.html)
 - Node v18.15.0 with NPM v9.5.0
+- Grunt CLI
 
 ## Using `mage` utility
 
