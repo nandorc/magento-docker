@@ -1,0 +1,26 @@
+{
+  "remoteUser": "magento",
+  "workspaceFolder": "/magento-app",
+  "extensions": [
+	"bmewburn.vscode-intelephense-client",
+	"DavidAnson.vscode-markdownlint",
+	"EditorConfig.EditorConfig",
+	"emallin.phpunit",
+	"hbenl.vscode-test-explorer",
+	"josee9988.minifyall",
+	"MehediDracula.php-namespace-resolver",
+	"mhutchie.git-graph",
+	"ms-vscode.test-adapter-converter",
+	"neilbrayfield.php-docblocker",
+	"recca0120.vscode-phpunit",
+	"redhat.vscode-xml",
+	"rifi2k.format-html-in-php",
+	"viperet.vscode-magento-wizard",
+	"xdebug.php-debug",
+	"xdebug.php-pack",
+	"zobo.php-intellisense"
+],
+  "settings": {
+    "intelephense.environment.phpVersion": "8.1.0"
+  }
+}
