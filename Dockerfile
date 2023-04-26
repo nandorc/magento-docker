@@ -18,9 +18,11 @@ RUN \
   # install required apt packages
   && apt-get install -y \
   # - apt packages for System
-  zip unzip cron curl wget sudo \
+  zip unzip cron curl wget sudo nano \
   # - apt packages for Apache
   apache2 libapache2-mod-security2 \
+  # - apt packages for mysql client
+  mysql-client \
   # - apt packages for PHP
   php8.1 php8.1-bcmath php8.1-common php8.1-curl php8.1-xml php8.1-gd php8.1-intl php8.1-mbstring php8.1-mysql php8.1-soap php8.1-zip php8.1-imagick php8.1-mcrypt php8.1-ssh2 \
   # - apt packages for GIT
@@ -64,7 +66,7 @@ RUN \
   # apache config
   mv /root/apache/* /etc/apache2/sites-available/ \
   && mv /var/www/html /var/www/info \
-  && a2ensite info-vhost.conf search-engine-proxy.conf \
+  && a2ensite 001-search-engine-proxy.conf 002-info-vhost.conf \
   && rm -rf /root/apache \
   # php config
   && mv /root/php/phpinfo.php /var/www/info/ \
