@@ -1,7 +1,5 @@
 # Magento Dockerizer
 
-> **Version:** 1.7.1
-
 Project to deploy Magento Open Source locally using Docker Containers. Supported and installed components are:
 
 - Adobe Commerce CE (Magento) v2.4.6
@@ -46,6 +44,14 @@ mage mysql
 ```
 
 Any other command executed using `mage` command is done through `docker compose exec` command using `magento` user on `web` service, so if the command `mage ls -a /magento-app` is executed, a list of files and folders (`ls -a` command) located at `/magento-app` directory inside web container are shown
+
+## Manage ports for services deploy
+
+Currently services forwards containers ports to specified values. If you need to use different ports, you can make a copy of `.env.sample` file and named to `.env` and modify ports
+
+```bash
+cp .env.sample .env
+```
 
 ## Installing new Magento App
 
