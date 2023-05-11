@@ -3,9 +3,9 @@ services:
     image: magento-host:1.0.0
     build: ./
     ports:
-      - 80:80
-      - 8080:8080
-      - 8000:8000
+      - ${MAGE_PORT:-80}:80
+      - ${ELASTIC_SEARCH_PROXY_PORT:-8080}:8080
+      - ${GRUNT_PORT:-8000}:8000
     volumes:
       - ./magento-app:/magento-app
       - web-user-volume:/home/magento
@@ -20,7 +20,7 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=root
     ports:
-      - 3306:3306
+      - ${MYSQL_PORT:-3306}:3306
     volumes:
       - db-volume:/var/lib/mysql
 
