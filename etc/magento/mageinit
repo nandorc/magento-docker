@@ -1,0 +1,7 @@
+#!/bin/bash
+
+cd /magento-app
+bin/magento cron:install --force
+bin/magento cron:run
+bin/magento indexer:reindex
+bin/magento cache:flush

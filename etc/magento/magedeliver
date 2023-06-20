@@ -16,5 +16,6 @@ bin/magento setup:upgrade
 bin/magento setup:di:compile
 
 # 4. Finish
+bin/magento indexer:reindex
 bin/magento cache:flush
 bin/magento maintenance:disable
