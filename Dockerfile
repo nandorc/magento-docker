@@ -59,35 +59,31 @@ USER root
 SHELL ["/bin/sh", "-c"]
 
 # Copy config files
-COPY ./etc/ /root/
+COPY ./etc/ /root/conf/
 
 # System config
 RUN \
   # apache config
-  mv /root/apache/* /etc/apache2/sites-available/ \
+  mv /root/conf/apache/* /etc/apache2/sites-available/ \
   && mv /var/www/html /var/www/info \
   && a2ensite 001-search-engine-proxy.conf 002-info-vhost.conf \
-  && rm -rf /root/apache \
   # php config
-  && mv /root/php/phpinfo.php /var/www/info/ \
-  && bash /root/php/php-ini-conf.sh \
-  && rm -rf /root/php \
+  && mv /root/conf/php/phpinfo.php /var/www/info/ \
+  && bash /root/conf/php/php-ini-conf.sh apache \
   # composer config
-  && bash /root/composer/composer-install.sh \
-  && rm -rf /root/composer \
+  && bash /root/conf/composer/composer-install.sh \
   # magento utilities
-  && chmod +x /root/magento/* \
-  && mv /root/magento/* /usr/local/bin/ \
-  && rm -rf /root/magento \
+  && chmod +x /root/conf/magento/* \
+  && mv /root/conf/magento/* /usr/local/bin/ \
   # set git for magento user
-  && chown magento:magento /root/git/.bash_gitrc /root/git/.gitconfig \
-  && mv /root/git/.bash_gitrc /home/magento/ \
-  && mv /root/git/.gitconfig /home/magento/ \
-  && rm -rf /root/git \
+  && chown magento:magento /root/conf/git/.bash_gitrc /root/conf/git/.gitconfig \
+  && mv /root/conf/git/.bash_gitrc /home/magento/ \
+  && mv /root/conf/git/.gitconfig /home/magento/ \
   # set aliases for magento user
-  && chown magento:magento /root/user/.bash_aliases \
-  && mv /root/user/.bash_aliases /home/magento/ \
-  && rm -rf /root/user
+  && chown magento:magento /root/conf/user/.bash_aliases \
+  && mv /root/conf/user/.bash_aliases /home/magento/ \
+  # remove conf folder
+  && rm -rf /root/conf
 
 # Container config
 WORKDIR /magento-app
