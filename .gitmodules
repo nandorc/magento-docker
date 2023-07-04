@@ -1,0 +1,4 @@
+[submodule "magento-scripts"]
+	path = etc
+	url = https://github.com/nandorc/magento-scripts.git
+	branch = master
