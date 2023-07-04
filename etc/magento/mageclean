@@ -1,8 +1,0 @@
-#!/bin/bash
-
-cd /magento-app
-rm -rfv var/view_preprocessed/*
-rm -rfv pub/static/*/*
-rm -rfv generated/*/*
-bin/magento setup:di:compile
-bin/magento cache:flush
