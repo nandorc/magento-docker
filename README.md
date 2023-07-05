@@ -29,7 +29,7 @@ git submodule update --init
 Start services
 
 ~~~bash
-mage up -d --build
+bin/mage up -d --build
 ~~~
 
 ---
@@ -39,7 +39,7 @@ mage up -d --build
 Open MySQL CLI using 'root' as password
 
 ~~~bash
-mage mysql -p
+bin/mage mysql -p
 ~~~
 
 Create database
@@ -75,7 +75,7 @@ exit;
 Test new user conection to MySQL using 'magento' as password
 
 ~~~bash
-mage mysql -u magento -p
+bin/mage mysql -u magento -p
 ~~~
 
 ---
@@ -91,13 +91,13 @@ Go to [Magento Marketplace](https://marketplace.magento.com/) and create a pair 
 Log in web container
 
 ~~~bash
-mage bash
+bin/mage bash
 ~~~
 
 Create Magento v2.4.6 project using your Magento Marketplaces Access Keys
 
 ~~~bash
-composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition=2.4.6 .
+composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition=2.4.6 site && cd site
 ~~~
 
 Update files/folders default permission and property
@@ -109,7 +109,7 @@ mageperms .
 Install Magento App. Add any other needed params on install (see [documentation](https://experienceleague.adobe.com/docs/commerce-operations/installation-guide/advanced.html?lang=en))
 
 ~~~bash
-bin/magento setup:install --base-url=http://localhost/ --db-host=db --db-name=magento_test --db-user=magento --db-password=magento --search-engine=elasticsearch7 --elasticsearch-host=search-engine --elasticsearch-port=9200 --use-rewrites=1 --cleanup-database
+bin/magento setup:install --base-url=http://localhost/ --db-host=db --db-name=magento_test --db-user=magento --db-password=magento --search-engine=elasticsearch7 --elasticsearch-host=http://search-engine --elasticsearch-port=9200 --use-rewrites=1 --cleanup-database
 ~~~
 
 Ininitialize cron and indexer
@@ -135,7 +135,7 @@ On `bin` folder, `mage` utility can be found. It allows user to interact with **
 ~~~bash
 #!/bin/bash
 
-# Setup mage alias
+# Setup mage alias (Tested on WSL Ubuntu and Git Bash)
 bash ./bin/setup
 
 # Start services
