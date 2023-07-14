@@ -24,7 +24,7 @@ RUN \
   # - apt packages for mysql client
   mysql-client \
   # - apt packages for PHP
-  php8.1 php8.1-bcmath php8.1-common php8.1-curl php8.1-xml php8.1-gd php8.1-intl php8.1-mbstring php8.1-mysql php8.1-soap php8.1-zip php8.1-imagick php8.1-mcrypt php8.1-ssh2 \
+  php8.1 php8.1-bcmath php8.1-common php8.1-curl php8.1-xml php8.1-gd php8.1-intl php8.1-mbstring php8.1-mysql php8.1-soap php8.1-zip php8.1-imagick php8.1-mcrypt php8.1-ssh2 php8.1-xdebug \
   # - apt packages for GIT
   git git-core bash-completion \
   # - apt packages for Grunt
@@ -68,7 +68,8 @@ RUN \
   && mv /var/www/html /var/www/info \
   && a2ensite 001-search-engine-proxy.conf 002-info-vhost.conf \
   # php config
-  && mv /root/conf/php/phpinfo.php /var/www/info/ \
+  && mv /root/conf/php/info/* /var/www/info/ \
+  && mv /root/conf/php/conf.d/* /etc/php/8.1/apache2/conf.d/ \
   && bash /root/conf/php/php-ini-conf.sh apache \
   # composer config
   && bash /root/conf/composer/composer-install.sh \
