@@ -2,17 +2,18 @@
     "remoteUser": "magento",
     "workspaceFolder": "/magento-app/site",
     "extensions": [
-		"DavidAnson.vscode-markdownlint",
-		"DEVSENSE.composer-php-vscode",
-		"DEVSENSE.phptools-vscode",
-		"DEVSENSE.profiler-php-vscode",
-		"EditorConfig.EditorConfig",
-		"mechatroner.rainbow-csv",
-		"mhutchie.git-graph",
-		"natqe.reload",
-		"redhat.vscode-xml",
-		"viperet.vscode-magento-wizard"
-	],
+        "bmewburn.vscode-intelephense-client",
+        "DavidAnson.vscode-markdownlint",
+        "DEVSENSE.composer-php-vscode",
+        "DEVSENSE.phptools-vscode",
+        "DEVSENSE.profiler-php-vscode",
+        "EditorConfig.EditorConfig",
+        "mechatroner.rainbow-csv",
+        "mhutchie.git-graph",
+        "natqe.reload",
+        "redhat.vscode-xml",
+        "viperet.vscode-magento-wizard"
+    ],
     "settings": {
 		"php.hover.fullname": true,
 		"php.problems.exclude": {
@@ -20,6 +21,10 @@
 			"vendor/": true
 		},
 		"php.problems.excludeGitIgnore": true,
+		"[php]": {
+			"editor.defaultFormatter": "DEVSENSE.phptools-vscode"
+		},
+		"intelephense.environment.phpVersion": "8.1.0",
 		"redhat.telemetry.enabled": false,
 		"xml.codeLens.enabled": true,
 		"xml.format.emptyElements": "collapse",
