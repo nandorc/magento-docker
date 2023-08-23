@@ -8,8 +8,8 @@
         "DEVSENSE.phptools-vscode",
         "DEVSENSE.profiler-php-vscode",
         "EditorConfig.EditorConfig",
+        "guodongsun.vscode-git-cruise",
         "mechatroner.rainbow-csv",
-        "mhutchie.git-graph",
         "natqe.reload",
         "redhat.vscode-xml",
         "viperet.vscode-magento-wizard"
