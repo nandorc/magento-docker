@@ -17,9 +17,10 @@
     "settings": {
 		"php.hover.fullname": true,
 		"php.problems.exclude": {
-			"generated/": true,
-			"vendor/": true
-		},
+            "app/": true,
+            "generated/": true,
+            "vendor/": true
+        },
 		"php.problems.excludeGitIgnore": true,
 		"[php]": {
 			"editor.defaultFormatter": "DEVSENSE.phptools-vscode"
