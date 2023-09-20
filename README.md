@@ -130,7 +130,7 @@ Access on you browser to [localhost](http://localhost) and you must see Magento 
 
 ---
 
-On `bin` folder, `mage` utility can be found. It allows user to interact with **docker compose** services easily. Follow codeblock shows main commands related with `mage` utility
+On `bin` folder, `mage` utility can be found. It allows user to interact with **docker compose** services easily. Following codeblock shows main commands related with `mage` utility
 
 ~~~bash
 #!/bin/bash
@@ -138,20 +138,7 @@ On `bin` folder, `mage` utility can be found. It allows user to interact with **
 # Setup mage alias (Tested on WSL Ubuntu and Git Bash)
 bash ./bin/setup
 
-# Start services
-#   Additional args from docker compose up are received
-mage up
-
-# Dispose services
-mage down
-
-# Restart services
-mage restart
-
-# See currently running services
-mage ps
-
-# Log in to web-service terminal
+# Log in to web-service terminal as magento user
 mage bash
 
 # Log in to mysql-service terminal
@@ -159,7 +146,7 @@ mage bash
 mage mysql
 ~~~
 
-Any other command executed using `mage` command is done through `docker compose exec` command using `magento` user on `web` service, so if the command `mage ls -a /magento-app` is executed, a list of files and folders (`ls -a` command) located at `/magento-app` directory inside web container are shown
+Any other command executed using `mage` command is done through `docker compose` command, so if the command `mage up -d --build` is executed, is the same than typing `docker compose up -d --build` command.
 
 ---
 
