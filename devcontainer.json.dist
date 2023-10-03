@@ -8,12 +8,13 @@
         "DEVSENSE.composer-php-vscode",
         "DEVSENSE.phptools-vscode",
         "DEVSENSE.profiler-php-vscode",
+        "dweber019.vscode-style-formatter",
         "EditorConfig.EditorConfig",
-        "esbenp.prettier-vscode",
         "mechatroner.rainbow-csv",
         "mhutchie.git-graph",
         "natqe.reload",
         "redhat.vscode-xml",
+        "stylelint.vscode-stylelint",
         "viperet.vscode-magento-wizard"
     ],
     "settings": {
@@ -27,20 +28,15 @@
         },
         "php.problems.excludeGitIgnore": true,
         "redhat.telemetry.enabled": false,
+        "sfmt.insize": 4,
         "xml.codeLens.enabled": true,
         "xml.format.emptyElements": "collapse",
         "xml.format.maxLineWidth": 0,
         "[javascript]": {
             "editor.defaultFormatter": "dbaeumer.vscode-eslint",
         },
-        "[json]": {
-            "editor.defaultFormatter": "vscode.json-language-features"
-        },
-        "[jsonc]": {
-            "editor.defaultFormatter": "vscode.json-language-features"
-        },
         "[less]": {
-            "editor.defaultFormatter": "esbenp.prettier-vscode"
+            "editor.defaultFormatter": "dweber019.vscode-style-formatter"
         },
         "[php]": {
             "editor.defaultFormatter": "DEVSENSE.phptools-vscode"
