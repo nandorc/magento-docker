@@ -19,7 +19,6 @@
     ],
     "settings": {
         "intelephense.environment.phpVersion": "8.1.0",
-        "eslint.format.enable": true,
         "php.hover.fullname": true,
         "php.problems.exclude": {
             "app/": true,
@@ -32,9 +31,6 @@
         "xml.codeLens.enabled": true,
         "xml.format.emptyElements": "collapse",
         "xml.format.maxLineWidth": 0,
-        "[javascript]": {
-            "editor.defaultFormatter": "dbaeumer.vscode-eslint",
-        },
         "[less]": {
             "editor.defaultFormatter": "dweber019.vscode-style-formatter"
         },
