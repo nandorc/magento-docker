@@ -4,7 +4,6 @@ services:
     build: ./
     ports:
       - ${MAGE_PORT:-80}:80
-      - ${ELASTIC_SEARCH_PROXY_PORT:-8080}:8080
       - ${GRUNT_PORT:-8000}:8000
     volumes:
       - ./magento-app:/magento-app
