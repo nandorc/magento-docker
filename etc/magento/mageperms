@@ -1,0 +1,20 @@
+#!/bin/bash
+
+[ ${#} -eq 0 ] && echo -e "ERR~ No path received" && exit 1
+
+declare selected_paths
+selected_paths=(${*})
+for selected_path in "${selected_paths[@]}"; do
+    [ ! -d "${selected_path}" ] && echo -e "ERR~ Path is not a directory" && exit 1
+done
+
+for selected_path in "${selected_paths[@]}"; do
+    echo -e "INF~ MAGEPERMS at '${selected_path}'"
+    sudo chown -R -v :www-data "${selected_path}"
+    sudo find "${selected_path}" -type f ! -perm 0664 -exec chmod -v 0664 {} +
+    sudo find "${selected_path}" -type d ! -perm 2775 -exec chmod -v 2775 {} +
+    declare bin_folders=("bin" "vendor/bin" "node_modules/.bin" ".tools/bin")
+    for bin_folder in ${bin_folders[@]}; do
+        [ -d "${selected_path}/${bin_folder}" ] && sudo chmod -v +x ${selected_path}/${bin_folder}/*
+    done
+done

@@ -1,0 +1,10 @@
+upstream fastcgi_backend {
+    server unix:/run/php/php8.1-fpm.sock;
+}
+
+server {
+    listen 80;
+    server_name localhost;
+    set $MAGE_ROOT /magento-app/site;
+    include /magento-app/site/nginx.conf;
+}
