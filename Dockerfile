@@ -3,34 +3,28 @@ FROM ubuntu:22.04
 
 # System first update
 ARG DEBIAN_FRONTEND=noninteractive
-RUN apt-get update && apt-get upgrade -y && apt-get install -y software-properties-common
+RUN apt-get update && apt-get upgrade -y
 
 # System setup
 RUN \
-    # add apache apt external repositories
-    add-apt-repository -y ppa:ondrej/apache2 \
-    # add php apt external repository
+    # add system required packages
+    apt-get install -y software-properties-common zip unzip cron curl wget sudo nano \
+    # add external repositories
     && add-apt-repository -y ppa:ondrej/php \
-    # add git apt external repository
     && add-apt-repository -y ppa:git-core/ppa \
-    # update apt packages list
     && apt-get update \
     # install required apt packages
     && apt-get install -y \
-    # - apt packages for System
-    zip unzip cron curl wget sudo nano \
-    # - apt packages for Apache
-    apache2 libapache2-mod-security2 \
+    # - apt packages for nginx
+    nginx \
     # - apt packages for mysql client
     mysql-client \
     # - apt packages for PHP
-    php8.1 php8.1-bcmath php8.1-common php8.1-curl php8.1-xml php8.1-gd php8.1-intl php8.1-mbstring php8.1-mysql php8.1-soap php8.1-zip php8.1-imagick php8.1-mcrypt php8.1-ssh2 php8.1-xdebug \
+    php8.1 php8.1-bcmath php8.1-common php8.1-curl php8.1-xml php8.1-gd php8.1-intl php8.1-mbstring php8.1-mysql php8.1-soap php8.1-zip php8.1-imagick php8.1-mcrypt php8.1-ssh2 php8.1-fpm php8.1-cli php8.1-xdebug \
     # - apt packages for GIT
     git git-core bash-completion \
     # - apt packages for Grunt
     libgconf-2-4 libatk1.0-0 libatk-bridge2.0-0 libgdk-pixbuf2.0-0 libgtk-3-0 libgbm-dev libnss3-dev libxss-dev libasound2 libxshmfence1 libglu1 \
-    # enable apache modules
-    && a2enmod deflate expires headers rewrite security2 ssl proxy_http \
     # umask setup
     && echo "umask 0002" >> /etc/profile \
     && echo "umask 0002" >> /etc/bash.bashrc \
@@ -65,16 +59,24 @@ SHELL ["/bin/sh", "-c"]
 # Copy config files
 COPY ./etc/ /root/conf/
 
-# System config
+# App config
 RUN \
-    # apache config
-    mv /root/conf/apache/* /etc/apache2/sites-available/ \
+    # entry point
+    mv /root/conf/docker/init.sh / \
+    && chmod +x /init.sh \
+    # nginx config
     && mv /var/www/html /var/www/info \
-    && a2ensite 001-search-engine-proxy.conf 002-info-vhost.conf \
+    && chmod -v 0644 /root/conf/nginx/* \
+    && chown -v root:root /root/conf/nginx/* \
+    && rm -rf /etc/nginx/sites-enabled/default \
+    && mv /root/conf/nginx/info /etc/nginx/sites-available/ \
+    && mv /root/conf/nginx/magento /etc/nginx/sites-available/ \
+    && ln -s /etc/nginx/sites-available/info /etc/nginx/sites-enabled \
+    && ln -s /etc/nginx/sites-available/magento /etc/nginx/sites-enabled \
     # php config
     && mv /root/conf/php/info/* /var/www/info/ \
-    && mv /root/conf/php/conf.d/* /etc/php/8.1/apache2/conf.d/ \
-    && bash /root/conf/php/php-ini-conf.sh apache \
+    && cp /root/conf/php/conf.d/* /etc/php/8.1/fpm/conf.d/ \
+    && bash /root/conf/php/php-ini-conf.sh nginx \
     # composer config
     && bash /root/conf/composer/composer-install.sh \
     # magento utilities
@@ -93,6 +95,8 @@ RUN \
     && rm -rf /root/conf
 
 # Container config
+# MAGE_PORT: 80
+# GRUNT_PORT: 8000
 WORKDIR /magento-app
-EXPOSE 80 8080 8000
-CMD [ "apachectl", "-D", "FOREGROUND" ]
+EXPOSE 80 8000
+ENTRYPOINT [ "/init.sh" ]

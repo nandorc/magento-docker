@@ -4,7 +4,7 @@ Project to deploy Magento Open Source locally using Docker Containers. Supported
 
 - Adobe Commerce CE (Magento) v2.4.6
 - Git v2.x
-- Apache v2.4.x
+- Nginx
 - PHP v8.1.x
 - Composer v2.x
 - MySQL v8.0
@@ -19,12 +19,6 @@ Project to deploy Magento Open Source locally using Docker Containers. Supported
 ---
 
 ### 1.1. Prepare services
-
-Update configuration submodule
-
-~~~bash
-git submodule update --init
-~~~
 
 Start services
 
@@ -115,7 +109,7 @@ bin/magento setup:install --base-url=http://localhost/ --db-host=db --db-name=ma
 Ininitialize cron and indexer
 
 ~~~bash
-mageinit
+bin/magento cron:install --force && bin/magento cron:run && bin/magento indexer:reindex && bin/magento cache:flush
 ~~~
 
 ---
