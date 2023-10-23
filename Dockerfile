@@ -75,7 +75,8 @@ RUN \
     && ln -s /etc/nginx/sites-available/magento /etc/nginx/sites-enabled \
     # php config
     && mv /root/conf/php/info/* /var/www/info/ \
-    && cp /root/conf/php/conf.d/* /etc/php/8.1/fpm/conf.d/ \
+    && cp /root/conf/php/conf.d/99-fpm.ini /etc/php/8.1/fpm/conf.d/ \
+    && cp /root/conf/php/conf.d/99-cli.ini /etc/php/8.1/cli/conf.d/ \
     && bash /root/conf/php/php-ini-conf.sh nginx \
     # composer config
     && bash /root/conf/composer/composer-install.sh \
