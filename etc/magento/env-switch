@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# Get env name
+declare env_name=${1}
+[ -z "${env_name}" ] && echo "ERR~ env_name must be provided" && exit 1
+
+# Check host file
+declare hostfile_name=00-magento-${env_name}
+declare enabled_host_path=/etc/nginx/sites-enabled
+declare available_host_path=/etc/nginx/sites-available
+[ -L "${enabled_host_path}/${hostfile_name}" ] && echo "INF~ ${env_name} is the current active host" && exit 0
+[ ! -f "${available_host_path}/${hostfile_name}" ] && echo "ERR~ ${env_name} host does not exists" && exit 1
+
+# Enable host
+sudo rm -rfv ${enabled_host_path}/00-magento*
+sudo ln -v -s ${available_host_path}/${hostfile_name} ${enabled_host_path}/
+sudo service nginx restart
+sudo service php8.1-fpm restart
