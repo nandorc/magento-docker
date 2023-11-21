@@ -1,0 +1,21 @@
+#!/bin/bash
+
+# @author Daniel F. Rivera C. <dsoftcolombia@gmail.com>
+# @see prompt variables at https://sergiobelkin.com/posts/elige-tu-propio-prompt
+# @see prompt styles at https://dev.to/ifenna__/adding-colors-to-bash-scripts-48g4
+
+# Git info parsing function
+function parse_git_info() {
+    # Check branch
+    result=$(git branch 2>/dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/')
+    # Check git statuses
+    [ -n "${result}" ] && [ -f .git/MERGE_HEAD ] && result="${result} (merging)"
+    [ -n "${result}" ] && [ -f .git/CHERRY_PICK_HEAD ] && result="${result} (cherry-picking)"
+    [ -n "${result}" ] && [ -d .git/rebase-merge ] && result="${result} (rebasing)"
+    # Return result
+    [ -n "${result}" ] && result="\nin ${result}"
+    echo -e "${result}"
+}
+
+# Change prompt
+PS1='${debian_chroot:+($debian_chroot)}\e[92m\u\e[0m \e[94mat \w\e[0m\e[95m$(parse_git_info)\e[0m\n\$ '
