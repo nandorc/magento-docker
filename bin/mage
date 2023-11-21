@@ -27,7 +27,7 @@ if [ "${1}" == "setup" ]; then
     fi
 elif [ "${1}" == "bash" ]; then
     shift
-    docker compose exec --user magento web bash -li
+    docker compose exec web bash -li
 elif [ "${1}" == "mysql" ]; then
     shift
     docker compose exec db mysql ${@}

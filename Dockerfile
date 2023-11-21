@@ -3,12 +3,14 @@ FROM ubuntu:22.04
 
 # System first update
 ARG DEBIAN_FRONTEND=noninteractive
-RUN apt-get update && apt-get upgrade -y
 
 # System setup
 RUN \
+    # first update and upgrade
+    apt-get update \
+    && apt-get upgrade -y \
     # add system required packages
-    apt-get install -y software-properties-common zip unzip cron curl wget sudo nano \
+    && apt-get install -y software-properties-common zip unzip cron curl wget sudo nano \
     # add external repositories
     && add-apt-repository -y ppa:ondrej/php \
     && add-apt-repository -y ppa:git-core/ppa \
@@ -28,8 +30,6 @@ RUN \
     # umask setup
     && echo "umask 0002" >> /etc/profile \
     && echo "umask 0002" >> /etc/bash.bashrc \
-    # oh-my-posh
-    && (curl -s https://ohmyposh.dev/install.sh | bash -s) \
     # magento user setup
     && groupadd --gid 1000 magento \
     && useradd --uid 1000 --gid magento --create-home magento \
@@ -84,11 +84,9 @@ RUN \
     && chmod +x /root/conf/magento/* \
     && mv /root/conf/magento/* /usr/local/bin/ \
     # set git for magento user
-    && chown magento:magento /root/conf/git/.gitconfig \
+    && chown magento:magento /root/conf/git/.bash_gitrc /root/conf/git/.gitconfig \
+    && mv /root/conf/git/.bash_gitrc /home/magento/ \
     && mv /root/conf/git/.gitconfig /home/magento/ \
-    # set oh-my-posh-theme for magento user
-    && chown magento:magento /root/conf/user/theme.omp.json \
-    && mv /root/conf/user/theme.omp.json /home/magento/ \
     # set aliases for magento user
     && chown magento:magento /root/conf/user/.bash_aliases \
     && mv /root/conf/user/.bash_aliases /home/magento/ \

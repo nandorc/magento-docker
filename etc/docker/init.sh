@@ -1,9 +1,15 @@
 #!/bin/bash
 
+# Set ownership for .ssh folder
+echo -e "\nINF~ Setup volumes\n"
+cd /home/magento
+sudo chown -v magento:magento .cache .config .local .ssh .vscode-server
+sudo chmod -v 0700 /home/magento/.ssh
+
 # Start cron service
 echo -e "\nINF~ Start cron service\n"
-service cron start
-service cron status
+sudo service cron start
+sudo service cron status
 
 # Try to init magento app cron
 if [ -d /magento-app/site ]; then
@@ -19,14 +25,14 @@ fi
 
 # Start php-fpm service
 echo -e "\nINF~ Start php-fpm service\n"
-service php8.1-fpm start
-service php8.1-fpm status
+sudo service php8.1-fpm start
+sudo service php8.1-fpm status
 
 # Start nginx service
 echo -e "\nINF~ Start nginx service\n"
-service nginx start
-service nginx status
+sudo service nginx start
+sudo service nginx status
 
 # Attatch to nginx logs
 echo -e "\nINF~ Attatch to nginx access logs\n"
-tail -f /var/log/nginx/access.log
+sudo tail -f /var/log/nginx/access.log

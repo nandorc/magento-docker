@@ -1,5 +1,4 @@
 {
-    "remoteUser": "magento",
     "workspaceFolder": "/magento-app/site",
     "extensions": [
 		"bmewburn.vscode-intelephense-client",
@@ -12,13 +11,17 @@
 		"dweber019.vscode-style-formatter",
 		"ecodes.vscode-phpmd",
 		"EditorConfig.EditorConfig",
+		"figma.figma-vscode-extension",
 		"foxundermoon.shell-format",
+		"hbenl.vscode-test-explorer",
 		"mechatroner.rainbow-csv",
 		"mhutchie.git-graph",
+		"ms-vscode.test-adapter-converter",
 		"ms-vsliveshare.vsliveshare",
 		"natqe.reload",
 		"pbogut.magento2-ls",
 		"redhat.vscode-xml",
+		"ritwickdey.LiveServer",
 		"shevaua.phpcs",
 		"stylelint.vscode-stylelint",
 		"viperet.vscode-magento-wizard",
