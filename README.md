@@ -1,4 +1,4 @@
-# Magento Dockerizer
+# Magento Dockerizer v5.0.0
 
 Project to deploy Magento Open Source locally using Docker Containers. Supported and installed components are:
 
@@ -14,7 +14,7 @@ Project to deploy Magento Open Source locally using Docker Containers. Supported
 
 ---
 
-## 1. Installing new Magento App
+## 1. [TODO] Installing new Magento App
 
 ---
 
@@ -88,28 +88,59 @@ Log in web container
 bin/mage bash
 ~~~
 
+Create folder to store new project
+
+~~~bash
+mkdir -v -p /magento-app/test/site && cd /magento-app/test/site
+~~~
+
 Create Magento v2.4.6 project using your Magento Marketplaces Access Keys
 
 ~~~bash
-composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition=2.4.6 site && cd site
+composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition=2.4.5 .
 ~~~
 
-Update files/folders default permission and property
+Init git repository for project and make first commit
 
 ~~~bash
-mageperms .
+git init && git add . && git commit -m "Create Magento v2.4.5 project"
 ~~~
 
-Install Magento App. Add any other needed params on install (see [documentation](https://experienceleague.adobe.com/docs/commerce-operations/installation-guide/advanced.html?lang=en))
+Create copy of enviroment variables file
 
 ~~~bash
-bin/magento setup:install --base-url=http://localhost/ --db-host=db --db-name=magento_test --db-user=magento --db-password=magento --search-engine=elasticsearch7 --elasticsearch-host=http://search-engine --elasticsearch-port=9200 --use-rewrites=1 --cleanup-database
+cp ~/vars.sh.sample /magento-app/vars-test.sh
 ~~~
 
-Ininitialize cron and indexer
+Open and edit vars (using for example `nano /magento-app/vars-test.sh`) file to set this values (all other values could stay blank):
 
 ~~~bash
-bin/magento cron:install --force && bin/magento cron:run && bin/magento indexer:reindex && bin/magento cache:flush
+db_host=db
+db_name=magento_test
+db_user=magento
+db_pwd=magento
+search_engine=elasticsearch7
+search_host=http://search-engine
+search_port=9200
+base_url=http://localhost/
+~~~
+
+[TODO] Execute env-setup command
+
+~~~bash
+env-setup --name test --mode dev --vars /magento-app/vars-test.sh
+~~~
+
+[TODO] Execute first deliver
+
+~~~bash
+mage deliver
+~~~
+
+Activate environment
+
+~~~bash
+env-switch test
 ~~~
 
 ---
@@ -141,15 +172,3 @@ mage mysql
 ~~~
 
 Any other command executed using `mage` command is done through `docker compose` command, so if the command `mage up -d --build` is executed, is the same than typing `docker compose up -d --build` command.
-
----
-
-## 3. Manage ports for services deploy
-
----
-
-Currently services forwards containers ports to specified values. If you need to use different ports, you can make a copy of `.env.sample` file and named to `.env` and modify ports
-
-~~~bash
-cp .env.sample .env
-~~~
