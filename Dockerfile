@@ -69,10 +69,8 @@ RUN \
     && chmod -v 0644 /root/conf/nginx/* \
     && chown -v root:root /root/conf/nginx/* \
     && rm -rf /etc/nginx/sites-enabled/default \
-    && mv /root/conf/nginx/info /etc/nginx/sites-available/ \
-    && mv /root/conf/nginx/magento /etc/nginx/sites-available/ \
-    && ln -s /etc/nginx/sites-available/info /etc/nginx/sites-enabled \
-    && ln -s /etc/nginx/sites-available/magento /etc/nginx/sites-enabled \
+    && mv /root/conf/nginx/99-info /etc/nginx/sites-available/ \
+    && ln -s /etc/nginx/sites-available/99-info /etc/nginx/sites-enabled \
     # php config
     && mv /root/conf/php/info/* /var/www/info/ \
     && cp /root/conf/php/conf.d/99-fpm.ini /etc/php/8.1/fpm/conf.d/ \
@@ -81,6 +79,8 @@ RUN \
     # composer config
     && bash /root/conf/composer/composer-install.sh \
     # magento utilities
+    && chown magento:magento /root/conf/magento/vars.sh.sample \
+    && mv /root/conf/magento/vars.sh.sample /home/magento/vars.sh.sample \
     && chmod +x /root/conf/magento/* \
     && mv /root/conf/magento/* /usr/local/bin/ \
     # set git for magento user

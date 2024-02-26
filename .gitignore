@@ -1,2 +1,3 @@
 /magento-app
 /.env
+/etc/linux/magento-setup-prod/vars.sh
