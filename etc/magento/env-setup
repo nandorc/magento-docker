@@ -177,7 +177,7 @@ echo "}" >>${available_host_path}
 sudo chown -v root:root ${available_host_path}
 
 # Setup env.php
-if [ -d /magento-app/${env_name}/fs ]; then
+if [ ${env_fs} -eq 1 ] && [ -d /magento-app/${env_name}/fs ]; then
     [ ! -d /magento-app/${env_name}/fs/app/etc ] && mkdir -p /magento-app/${env_name}/fs/app/etc
     if [ ! -f /magento-app/${env_name}/fs/app/etc/env.php ]; then
         mv -v /magento-app/${env_name}/site/app/etc/env.php /magento-app/${env_name}/fs/app/etc/
@@ -194,7 +194,7 @@ if [ ${env_cron} -eq 1 ]; then
 fi
 
 # Setup media folder
-if [ -d /magento-app/${env_name}/fs ]; then
+if [ ${env_fs} -eq 1 ] && [ -d /magento-app/${env_name}/fs ]; then
     [ ! -d /magento-app/${env_name}/fs/pub ] && mkdir -p /magento-app/${env_name}/fs/pub
     if [ ! -d /magento-app/${env_name}/fs/pub/media ]; then
         mv -v /magento-app/${env_name}/site/pub/media /magento-app/${env_name}/fs/pub/media
@@ -205,7 +205,7 @@ if [ -d /magento-app/${env_name}/fs ]; then
 fi
 
 # Setup static/_cache folder
-if [ -d /magento-app/${env_name}/fs ]; then
+if [ ${env_fs} -eq 1 ] && [ -d /magento-app/${env_name}/fs ]; then
     [ ! -d /magento-app/${env_name}/fs/pub/static ] && mkdir -p /magento-app/${env_name}/fs/pub/static
     if [ ! -d /magento-app/${env_name}/fs/pub/static/_cache ]; then
         mv -v /magento-app/${env_name}/site/pub/static/_cache /magento-app/${env_name}/fs/pub/static/_cache
@@ -216,7 +216,7 @@ if [ -d /magento-app/${env_name}/fs ]; then
 fi
 
 # Setup var/cache folder
-if [ -d /magento-app/${env_name}/fs ]; then
+if [ ${env_fs} -eq 1 ] && [ -d /magento-app/${env_name}/fs ]; then
     [ ! -d /magento-app/${env_name}/fs/var ] && mkdir -p /magento-app/${env_name}/fs/var
     if [ ! -d /magento-app/${env_name}/fs/var/cache ]; then
         mv -v /magento-app/${env_name}/site/var/cache /magento-app/${env_name}/fs/var/cache
@@ -227,7 +227,7 @@ if [ -d /magento-app/${env_name}/fs ]; then
 fi
 
 # Setup var/page_cache folder
-if [ -d /magento-app/${env_name}/fs ]; then
+if [ ${env_fs} -eq 1 ] && [ -d /magento-app/${env_name}/fs ]; then
     [ ! -d /magento-app/${env_name}/fs/var ] && mkdir -p /magento-app/${env_name}/fs/var
     if [ ! -d /magento-app/${env_name}/fs/var/page_cache ]; then
         mv -v /magento-app/${env_name}/site/var/page_cache /magento-app/${env_name}/fs/var/page_cache
