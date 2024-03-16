@@ -155,6 +155,12 @@ if [ ${env_install} -eq 1 ] && [ ! -f /magento-app/${env_name}/fs/app/etc/env.ph
     fi
 fi
 
+# Replicate and clean nginx conf file
+[ ! -f /magento-app/${env_name}/site/nginx.conf ] && echo "ERR~ Can't find nginx conf at '/magento-app/${env_name}/site/nginx.conf'" && exit 1
+cp -v /magento-app/${env_name}/site/nginx.conf /magento-app/${env_name}/nginx.conf
+sed -i -e "/HTTPS \"on\"/d" /magento-app/${env_name}/nginx.conf
+sed -i -e "/HTTP_X_FORWARDED_PROTO \"https\"/d" /magento-app/${env_name}/nginx.conf
+
 # Create nginx host file
 declare hostfile_name=00-magento-${env_name}
 declare enabled_host_path=/etc/nginx/sites-enabled/${hostfile_name}
@@ -172,7 +178,7 @@ echo "server {" >>${available_host_path}
 echo "    listen 80;" >>${available_host_path}
 echo "    server_name _;" >>${available_host_path}
 echo "    set \$MAGE_ROOT /magento-app/${env_name}/site;" >>${available_host_path}
-echo "    include /magento-app/${env_name}/site/nginx.conf;" >>${available_host_path}
+echo "    include /magento-app/${env_name}/nginx.conf;" >>${available_host_path}
 echo "}" >>${available_host_path}
 sudo chown -v root:root ${available_host_path}
 
