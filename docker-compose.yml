@@ -6,6 +6,7 @@ services:
     ports:
       - 80:80
       - 8000:8000
+      - 35729:35729
     volumes:
       - ./magento-app:/magento-app
       - web-user-cache:/home/magento/.cache
