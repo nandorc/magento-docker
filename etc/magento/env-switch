@@ -5,21 +5,32 @@ declare env_name=${1}
 [ -z "${env_name}" ] && echo "ERR~ env_name must be provided" && exit 1
 
 # Check host file
+declare must_change_host=0
 declare hostfile_name=00-magento-${env_name}
 declare enabled_host_path=/etc/nginx/sites-enabled
 declare available_host_path=/etc/nginx/sites-available
-[ -L "${enabled_host_path}/${hostfile_name}" ] && echo "INF~ ${env_name} is the current active host" && exit 0
-[ ! -f "${available_host_path}/${hostfile_name}" ] && echo "ERR~ ${env_name} host does not exists" && exit 1
+if [ -L "${enabled_host_path}/${hostfile_name}" ]; then
+    echo "INF~ ${env_name} is the current active host"
+elif [ ! -f "${available_host_path}/${hostfile_name}" ]; then
+    echo "ERR~ ${env_name} host does not exists" && exit 1
+else
+    must_change_host=1
+fi
 
-# Replicate and clean nginx conf file
-[ ! -f /magento-app/${env_name}/site/nginx.conf ] && echo "ERR~ Can't find nginx conf at '/magento-app/${env_name}/site/nginx.conf'" && exit 1
-rm -rfv /magento-app/${env_name}/nginx.conf
-cp -v /magento-app/${env_name}/site/nginx.conf /magento-app/${env_name}/nginx.conf
-sed -i -e "/HTTPS \"on\"/d" /magento-app/${env_name}/nginx.conf
-sed -i -e "/HTTP_X_FORWARDED_PROTO \"https\"/d" /magento-app/${env_name}/nginx.conf
+if [ ${must_change_host} -eq 1 ]; then
+    # Replicate and clean nginx conf file
+    [ ! -f /magento-app/${env_name}/site/nginx.conf ] && echo "ERR~ Can't find nginx conf at '/magento-app/${env_name}/site/nginx.conf'" && exit 1
+    rm -rfv /magento-app/${env_name}/nginx.conf
+    cp -v /magento-app/${env_name}/site/nginx.conf /magento-app/${env_name}/nginx.conf
+    sed -i -e "/HTTPS \"on\"/d" /magento-app/${env_name}/nginx.conf
+    sed -i -e "/HTTP_X_FORWARDED_PROTO \"https\"/d" /magento-app/${env_name}/nginx.conf
 
-# Enable host
-sudo rm -rfv ${enabled_host_path}/00-magento*
-sudo ln -v -s ${available_host_path}/${hostfile_name} ${enabled_host_path}/
-sudo service nginx restart
-sudo service php8.1-fpm restart
+    # Enable host
+    sudo rm -rfv ${enabled_host_path}/00-magento*
+    sudo ln -v -s ${available_host_path}/${hostfile_name} ${enabled_host_path}/
+    sudo service nginx restart
+    sudo service php8.1-fpm restart
+fi
+
+# End script
+exit 0
