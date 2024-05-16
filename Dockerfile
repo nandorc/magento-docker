@@ -52,7 +52,9 @@ RUN cd /home/magento \
     # install grunt
     && npm install -g grunt-cli \
     # install livereload
-    && npm install -g livereload
+    && npm install -g livereload \
+    # install mage tools
+    && git clone https://github.com/nandorc/magento-tools.git ~/.magetools
 USER root
 SHELL ["/bin/sh", "-c"]
 
@@ -78,11 +80,6 @@ RUN \
     && bash /root/conf/php/php-ini-conf.sh nginx \
     # composer config
     && bash /root/conf/composer/composer-install.sh \
-    # magento utilities
-    && chown magento:magento /root/conf/magento/vars.sh.sample \
-    && mv /root/conf/magento/vars.sh.sample /home/magento/vars.sh.sample \
-    && chmod +x /root/conf/magento/* \
-    && mv /root/conf/magento/* /usr/local/bin/ \
     # set git for magento user
     && chown magento:magento /root/conf/git/.bash_gitrc /root/conf/git/.gitconfig \
     && mv /root/conf/git/.bash_gitrc /home/magento/ \
