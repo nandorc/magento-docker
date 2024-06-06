@@ -32,9 +32,13 @@ services:
       - db-volume:/var/lib/mysql
 
   search-engine:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.8
+    image: opensearchproject/opensearch:2.12.0
     environment:
       - discovery.type=single-node
+      - plugins.security.disabled=true
+      - OPENSEARCH_INITIAL_ADMIN_PASSWORD=magentoDockerOpenSearch123!
+    ports:
+      - 9200:9200
 volumes:
   db-volume:
   web-user-cache:
