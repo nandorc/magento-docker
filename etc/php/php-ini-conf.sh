@@ -5,8 +5,8 @@
 [ "${1}" != "apache" ] && [ "${1}" != "nginx" ] && echo -e "ERR~ target webserver must be apache or nginx" && exit 1
 
 # Check ini file dirs exists
-declare ini_file_dirs=("/etc/php/8.1/apache2/php.ini")
-[ "${1}" = "nginx" ] && ini_file_dirs=("/etc/php/8.1/fpm/php.ini" "/etc/php/8.1/cli/php.ini")
+declare ini_file_dirs=("/etc/php/8.3/apache2/php.ini")
+[ "${1}" = "nginx" ] && ini_file_dirs=("/etc/php/8.3/fpm/php.ini" "/etc/php/8.3/cli/php.ini")
 for ini_file_dir in "${ini_file_dirs[@]}"; do
   [ ! -f "${ini_file_dir}" ] && echo -e "ERR~ Can't find php.ini file to set recommended configurations" && exit 1
 done

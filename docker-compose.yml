@@ -14,6 +14,7 @@ services:
       - web-user-local:/home/magento/.local
       - web-user-ssh:/home/magento/.ssh
       - web-user-vscode-server:/home/magento/.vscode-server
+      - web-magetools-vars:/home/magento/.magetools/var
       - web-sites-available:/etc/nginx/sites-available
       - web-sites-enabled:/etc/nginx/sites-enabled
     depends_on:
@@ -46,5 +47,6 @@ volumes:
   web-user-local:
   web-user-ssh:
   web-user-vscode-server:
+  web-magetools-vars:
   web-sites-available:
   web-sites-enabled:

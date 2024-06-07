@@ -3,7 +3,8 @@
 # Set ownership for .ssh folder
 echo -e "\nINF~ Setup volumes\n"
 cd /home/magento
-sudo chown -v magento:magento .cache .config .local .ssh .vscode-server
+[ ! -d .magetools/var ] && mkdir -vp .magetools/var
+sudo chown -v magento:magento .cache .config .local .ssh .vscode-server .magetools/var
 sudo chmod -v 0700 /home/magento/.ssh
 
 # Start cron service
@@ -13,8 +14,8 @@ sudo service cron status
 
 # Start php-fpm service
 echo -e "\nINF~ Start php-fpm service\n"
-sudo service php8.1-fpm start
-sudo service php8.1-fpm status
+sudo service php8.3-fpm start
+sudo service php8.3-fpm status
 
 # Start nginx service
 echo -e "\nINF~ Start nginx service\n"

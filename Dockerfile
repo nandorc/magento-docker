@@ -22,7 +22,7 @@ RUN \
     # - apt packages for mysql client
     mysql-client \
     # - apt packages for PHP
-    php8.1 php8.1-bcmath php8.1-common php8.1-curl php8.1-xml php8.1-gd php8.1-intl php8.1-mbstring php8.1-mysql php8.1-soap php8.1-zip php8.1-imagick php8.1-mcrypt php8.1-ssh2 php8.1-fpm php8.1-cli php8.1-xdebug \
+    php8.3 php8.3-bcmath php8.3-common php8.3-curl php8.3-xml php8.3-gd php8.3-intl php8.3-mbstring php8.3-mysql php8.3-soap php8.3-zip php8.3-imagick php8.3-mcrypt php8.3-ssh2 php8.3-fpm php8.3-cli php8.3-xdebug \
     # - apt packages for GIT
     git git-core bash-completion \
     # - apt packages for Grunt
@@ -75,8 +75,8 @@ RUN \
     && ln -s /etc/nginx/sites-available/99-info /etc/nginx/sites-enabled \
     # php config
     && mv /root/conf/php/info/* /var/www/info/ \
-    && cp /root/conf/php/conf.d/99-fpm.ini /etc/php/8.1/fpm/conf.d/ \
-    && cp /root/conf/php/conf.d/99-cli.ini /etc/php/8.1/cli/conf.d/ \
+    && cp /root/conf/php/conf.d/99-fpm.ini /etc/php/8.3/fpm/conf.d/ \
+    && cp /root/conf/php/conf.d/99-cli.ini /etc/php/8.3/cli/conf.d/ \
     && bash /root/conf/php/php-ini-conf.sh nginx \
     # composer config
     && bash /root/conf/composer/composer-install.sh \
