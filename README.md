@@ -1,6 +1,6 @@
-# Magento Dockerizer v5.0.0
+# Magento Dockerizer
 
-Project to deploy Magento Open Source locally using Docker Containers. Supported and installed components are:
+Project to deploy Magento Open Source locally using Docker Containers. Supported and installed components in default config:
 
 - Adobe Commerce CE (Magento) v2.4.6
 - Git v2.x
@@ -8,13 +8,13 @@ Project to deploy Magento Open Source locally using Docker Containers. Supported
 - PHP v8.1.x
 - Composer v2.x
 - MySQL v8.0
-- Elasticsearch : [v7.17.8](https://www.elastic.co/guide/en/elasticsearch/reference/7.17/docker.html)
+- Opensearch v2.x
 - Node v18.15.0 with NPM v9.5.0
 - Grunt CLI
 
 ---
 
-## 1. [TODO] Installing new Magento App
+## 1. Installing new Magento App
 
 ---
 
@@ -39,10 +39,10 @@ bin/mage mysql -p
 Create database
 
 ~~~sql
-create database magento_test;
+create database magento_default;
 ~~~
 
-Crear new user
+Create new user
 
 ~~~sql
 create user 'magento'@'%' identified with mysql_native_password by 'magento';
@@ -88,60 +88,50 @@ Log in web container
 bin/mage bash
 ~~~
 
-Create folder to store new project
+Create a new file to store variables for new env.
+
+> In order to setup a fresh Magento env you could consider next variables:
+>
+> - `git_protocol`, `git_user`, `git_key`, `git_route` and `git_branch` could be left empty or with its default value.
+> - `repo_user` is the name that you are going to use when commiting changes to git. You must put it between quotes ("").
+> - `repo_email` is the email that you are going to use when commiting changes to git.
+> - `db_host` is `db` because is the in network recognized name given for database service
+> - `db_name` is the name of the database which is going to be connected to Magento app, in case of following instructions in step 1.2 it is `magento_default`
+> - `db_user` is the user to connect to database, in case of following instructions in step 1.2 is `magento`
+> - `db_pwd` is the password to connect to database, in case of following instructions in step 1.2 is `magento`
+> - `search_engine` is the selected search engine to use, in case of this containerized service it must be `opensearch`
+> - `search_host` is the network recognized name for Opensearch service, it's value must be `http://search-engine`
+> - `search_port` is the port used by Opensearch, it value must be `9200`
+> - `search_auth`, `search_user` and `search_pwd` must be left empty.
+> - `base_url` is the URl to serve the Magento app, it could be `http://localhost/`
+> - `admin_path` is the path that will be used to access to Magento Back Office. It could be `admin`
+> - `magento_version` is the specific Magento version to use when installing a fresh new application. Default is `2.4.6`
+> - `php_version` is the specific specify PHP version to use when generating Nginx host file. Default is `8.1`
+> - `excluded_on_install` could be left empty
 
 ~~~bash
-mkdir -v -p /magento-app/test/site && cd /magento-app/test/site
+mage env:vars-create default
 ~~~
 
-Create Magento v2.4.6 project using your Magento Marketplaces Access Keys
+Execute command to setup a new env with the stored variables
 
 ~~~bash
-composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition=2.4.5 .
+mage env:setup --name default --no-repo
 ~~~
 
-Init git repository for project and make first commit
+Switch to new created env
 
 ~~~bash
-git init && git add . && git commit -m "Create Magento v2.4.5 project"
+env-move -s default
 ~~~
 
-Create copy of enviroment variables file
-
-~~~bash
-cp ~/vars.sh.sample /magento-app/vars-test.sh
-~~~
-
-Open and edit vars (using for example `nano /magento-app/vars-test.sh`) file to set this values (all other values could stay blank):
-
-~~~bash
-db_host=db
-db_name=magento_test
-db_user=magento
-db_pwd=magento
-search_engine=elasticsearch7
-search_host=http://search-engine
-search_port=9200
-base_url=http://localhost/
-~~~
-
-[TODO] Execute env-setup command
-
-~~~bash
-env-setup --name test --mode dev --vars /magento-app/vars-test.sh
-~~~
-
-[TODO] Execute first deliver
+Execute first deliver
 
 ~~~bash
 mage deliver
 ~~~
 
-Activate environment
-
-~~~bash
-env-switch test
-~~~
+> Inside web container the `mage` command used to setup the new env comes from a public repo for [Magento Tools](https://github.com/nandorc/magento-tools). You could type the command `mage list` inside the container to know more about the tools you can use.
 
 ---
 
@@ -151,7 +141,13 @@ Access on you browser to [localhost](http://localhost) and you must see Magento 
 
 ---
 
-## 2. Using `mage` utility
+## 2. Use a different PHP version
+
+If you want to use a different PHP version, you could create a `.env` file and define a variable named `PHP_VERSION` where you set the PHP version you want the container to use. You can copy the content in the `.env.sample` file where it's defined the PHP_VERSION variable.
+
+---
+
+## 3. Using `mage` utility
 
 ---
 
