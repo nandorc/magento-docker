@@ -1,42 +1,37 @@
 # syntax=docker/dockerfile:1
 FROM ubuntu:22.04
 
-# System first update
+# Container variables
 ARG DEBIAN_FRONTEND=noninteractive
+ARG PHP_VERSION=8.1
 
-# System setup
+# System general setup
 RUN \
     # first update and upgrade
-    apt-get update \
-    && apt-get upgrade -y \
+    apt-get update && apt-get upgrade -y \
     # add system required packages
     && apt-get install -y software-properties-common zip unzip cron curl wget sudo nano \
     # add external repositories
-    && add-apt-repository -y ppa:ondrej/php \
-    && add-apt-repository -y ppa:git-core/ppa \
-    && apt-get update \
-    # install required apt packages
-    && apt-get install -y \
-    # - apt packages for nginx
-    nginx \
-    # - apt packages for mysql client
-    mysql-client \
-    # - apt packages for PHP
-    php8.3 php8.3-bcmath php8.3-common php8.3-curl php8.3-xml php8.3-gd php8.3-intl php8.3-mbstring php8.3-mysql php8.3-soap php8.3-zip php8.3-imagick php8.3-mcrypt php8.3-ssh2 php8.3-fpm php8.3-cli php8.3-xdebug \
-    # - apt packages for GIT
-    git git-core bash-completion \
-    # - apt packages for Grunt
-    libgconf-2-4 libatk1.0-0 libatk-bridge2.0-0 libgdk-pixbuf2.0-0 libgtk-3-0 libgbm-dev libnss3-dev libxss-dev libasound2 libxshmfence1 libglu1 \
+    && add-apt-repository -y ppa:ondrej/php && add-apt-repository -y ppa:git-core/ppa && apt-get update
+
+# System users setup
+RUN \
     # umask setup
-    && echo "umask 0002" >> /etc/profile \
-    && echo "umask 0002" >> /etc/bash.bashrc \
-    # magento user setup
-    && groupadd --gid 1000 magento \
-    && useradd --uid 1000 --gid magento --create-home magento \
-    && usermod --shell /bin/bash magento \
-    && usermod -aG sudo magento \
-    && passwd -d magento \
+    echo "umask 0002" >> /etc/profile && echo "umask 0002" >> /etc/bash.bashrc \
+    # magento user creation
+    && groupadd --gid 1000 magento && useradd --uid 1000 --gid magento --create-home magento \
+    # magento user config
+    && usermod --shell /bin/bash magento && usermod -aG sudo magento && passwd -d magento
+
+# Global apt dependencies setup
+RUN \
+    # install required apt packages (git, nginx and mysql-client)
+    apt-get install -y git git-core bash-completion nginx mysql-client \
+    # add magento user to www-data group
     && gpasswd -a magento www-data
+
+# DEV container only required packages for Grunt
+RUN apt-get install -y libgconf-2-4 libatk1.0-0 libatk-bridge2.0-0 libgdk-pixbuf2.0-0 libgtk-3-0 libgbm-dev libnss3-dev libxss-dev libasound2 libxshmfence1 libglu1
 
 # User config
 USER magento
@@ -45,8 +40,7 @@ RUN cd /home/magento \
     # confirm sudo user
     && touch .sudo_as_admin_successful \
     # install nvm
-    && (curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash) \
-    && source .bashrc \
+    && (curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash) && source .bashrc \
     # install node and npm
     && nvm install 18.15.0 \
     # install grunt
@@ -58,37 +52,41 @@ RUN cd /home/magento \
 USER root
 SHELL ["/bin/sh", "-c"]
 
+# PHP apt packages
+RUN apt-get install -y php${PHP_VERSION} php${PHP_VERSION}-bcmath php${PHP_VERSION}-common php${PHP_VERSION}-curl php${PHP_VERSION}-xml php${PHP_VERSION}-gd php${PHP_VERSION}-intl php${PHP_VERSION}-mbstring php${PHP_VERSION}-mysql php${PHP_VERSION}-soap php${PHP_VERSION}-zip php${PHP_VERSION}-imagick php${PHP_VERSION}-mcrypt php${PHP_VERSION}-ssh2 php${PHP_VERSION}-fpm php${PHP_VERSION}-cli php${PHP_VERSION}-xdebug
+
 # Copy config files
 COPY ./etc/ /root/conf/
 
 # App config
 RUN \
     # entry point
-    mv /root/conf/docker/init.sh / \
-    && chmod +x /init.sh \
+    mv -v /root/conf/docker/init.sh / \
+    && chmod -v +x /init.sh \
     # nginx config
-    && mv /var/www/html /var/www/info \
+    && mv -v /var/www/html /var/www/info \
     && chmod -v 0644 /root/conf/nginx/* \
     && chown -v root:root /root/conf/nginx/* \
-    && rm -rf /etc/nginx/sites-enabled/default \
-    && mv /root/conf/nginx/99-info /etc/nginx/sites-available/ \
-    && ln -s /etc/nginx/sites-available/99-info /etc/nginx/sites-enabled \
+    && rm -rfv /etc/nginx/sites-enabled/default \
+    && sed -i -e "s/%PHP_VERSION%/${PHP_VERSION}/" /root/conf/nginx/99-info \
+    && mv -v /root/conf/nginx/99-info /etc/nginx/sites-available/ \
+    && ln -v -s /etc/nginx/sites-available/99-info /etc/nginx/sites-enabled \
     # php config
-    && mv /root/conf/php/info/* /var/www/info/ \
-    && cp /root/conf/php/conf.d/99-fpm.ini /etc/php/8.3/fpm/conf.d/ \
-    && cp /root/conf/php/conf.d/99-cli.ini /etc/php/8.3/cli/conf.d/ \
-    && bash /root/conf/php/php-ini-conf.sh nginx \
+    && mv -v /root/conf/php/info/* /var/www/info/ \
+    && cp -v /root/conf/php/conf.d/99-fpm.ini /etc/php/${PHP_VERSION}/fpm/conf.d/ \
+    && cp -v /root/conf/php/conf.d/99-cli.ini /etc/php/${PHP_VERSION}/cli/conf.d/ \
+    && bash /root/conf/php/php-ini-conf.sh --webserver nginx --php-version ${PHP_VERSION} \
     # composer config
     && bash /root/conf/composer/composer-install.sh \
     # set git for magento user
-    && chown magento:magento /root/conf/git/.bash_gitrc /root/conf/git/.gitconfig \
-    && mv /root/conf/git/.bash_gitrc /home/magento/ \
-    && mv /root/conf/git/.gitconfig /home/magento/ \
+    && chown -v magento:magento /root/conf/git/.bash_gitrc /root/conf/git/.gitconfig \
+    && mv -v /root/conf/git/.bash_gitrc /home/magento/ \
+    && mv -v /root/conf/git/.gitconfig /home/magento/ \
     # set aliases for magento user
-    && chown magento:magento /root/conf/user/.bash_aliases \
-    && mv /root/conf/user/.bash_aliases /home/magento/ \
+    && chown -v magento:magento /root/conf/user/.bash_aliases \
+    && mv -v /root/conf/user/.bash_aliases /home/magento/ \
     # remove conf folder
-    && rm -rf /root/conf
+    && rm -rfv /root/conf
 
 # Container config
 # MAGE_PORT: 80

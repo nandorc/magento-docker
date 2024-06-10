@@ -14,8 +14,8 @@ sudo service cron status
 
 # Start php-fpm service
 echo -e "\nINF~ Start php-fpm service\n"
-sudo service php8.3-fpm start
-sudo service php8.3-fpm status
+sudo service php${PHP_VERSION}-fpm start
+sudo service php${PHP_VERSION}-fpm status
 
 # Start nginx service
 echo -e "\nINF~ Start nginx service\n"
