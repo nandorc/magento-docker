@@ -1,7 +1,13 @@
 #!/bin/bash
 
 cd $(echo "${0}" | sed -e "s/mage/../")
-[ ! -d ./magento-app ] && mkdir ./magento-app && echo -e "INF~ magento-app folder created" && docker compose restart web
+declare must_restart_web=0
+[ ! -d ./var/magento-app ] && mkdir -p -v ./var/magento-app && must_restart_web=1
+[ ! -d ./var/env-vars ] && mkdir -p -v ./var/env-vars && must_restart_web=1
+[ ! -d ./var/varnish ] && mkdir -p -v ./var/varnish && must_restart_web=1
+[ ! -f ./var/varnish/default.vcl ] && cp -v ./etc/varnish/default.vcl ./var/varnish/default.vcl && must_restart_web=1
+[ ${must_restart_web} -eq 1 ] && docker compose restart web
+
 [ ${#} -eq 0 ] && echo -e "ERR~ No command to execute" && exit 1
 
 if [ "${1}" == "setup" ]; then
@@ -31,6 +37,9 @@ elif [ "${1}" == "bash" ]; then
 elif [ "${1}" == "mysql" ]; then
     shift
     docker compose exec db mysql ${@}
+elif [ "${1}" == "varnish" ]; then
+    shift
+    docker compose exec -ti varnish bash
 else
     docker compose ${@}
 fi
