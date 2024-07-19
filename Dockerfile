@@ -3,7 +3,7 @@ FROM ubuntu:22.04
 
 # Container variables
 ARG DEBIAN_FRONTEND=noninteractive
-ARG PHP_VERSION=8.1
+ARG PHP_VERSION=8.3
 
 # System general setup
 RUN \

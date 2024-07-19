@@ -2,15 +2,16 @@
 
 Project to deploy Magento Open Source locally using Docker Containers. Supported and installed components in default config:
 
-- Adobe Commerce CE (Magento) v2.4.6
+- Adobe Commerce CE (Magento) v2.4.7
 - Git v2.x
 - Nginx
-- PHP v8.1.x
+- PHP v8.3.x
 - Composer v2.x
 - MySQL v8.0
 - Opensearch v2.x
 - Node v18.15.0 with NPM v9.5.0
 - Grunt CLI
+- Varnish 7.5
 
 ---
 
@@ -106,7 +107,7 @@ Create a new file to store variables for new env.
 > - `base_url` is the URl to serve the Magento app, it could be `http://localhost/`
 > - `admin_path` is the path that will be used to access to Magento Back Office. It could be `admin`
 > - `magento_version` is the specific Magento version to use when installing a fresh new application. Default is `2.4.6`
-> - `php_version` is the specific specify PHP version to use when generating Nginx host file. Default is `8.1`
+> - `php_version` is the specific specify PHP version to use when generating Nginx host file. Default is `8.3`
 > - `excluded_on_install` could be left empty
 
 ~~~bash
