@@ -106,7 +106,7 @@ Create a new file to store variables for new env.
 > - `search_auth`, `search_user` and `search_pwd` must be left empty.
 > - `base_url` is the URl to serve the Magento app, it could be `http://localhost/`
 > - `admin_path` is the path that will be used to access to Magento Back Office. It could be `admin`
-> - `magento_version` is the specific Magento version to use when installing a fresh new application. Default is `2.4.6`
+> - `magento_version` is the specific Magento version to use when installing a fresh new application. Default is `2.4.7`
 > - `php_version` is the specific specify PHP version to use when generating Nginx host file. Default is `8.3`
 > - `excluded_on_install` could be left empty
 
