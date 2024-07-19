@@ -147,7 +147,19 @@ If you want to use a different PHP version, you could create a `.env` file and d
 
 ---
 
-## 3. Using `mage` utility
+## 3. Add other services
+
+In order to provide access to extra services you will find in root location files with names like `compose.$serviceName.yml`. If you want to include any of these services you must add them to your custom `.env` file in the variable called `COMPOSE_FILE` using colon (:) between each service (ex. `compose.yml:compose.varnish.yml`).
+
+Take a look at `.env.sample` file to see how the variables are defined. It is necessary to also define variable `COMPOSE_PATH_SEPARATOR=:` in order to use colon to separate services names.
+
+> **Importan Note!**
+>
+> If you want to use *Varnish* you must modify `WEB_PORT` variable in your custom `.env` file. Recommended value is `WEB_PORT=8080`
+
+---
+
+## 4. Using `mage` utility
 
 ---
 
@@ -159,12 +171,16 @@ On `bin` folder, `mage` utility can be found. It allows user to interact with **
 # Setup mage alias (Tested on WSL Ubuntu and Git Bash)
 bash ./bin/setup
 
-# Log in to web-service terminal as magento user
+# Login to web-service terminal as magento user
 mage bash
 
-# Log in to mysql-service terminal
+# Login to mysql-service terminal
 #   Parameters for mysql connection are received
 mage mysql
+
+# Login to varnish-service terminal
+#   You must be including compose.varnish.yml file in order to have varnish service available
+mage varnish
 ~~~
 
 Any other command executed using `mage` command is done through `docker compose` command, so if the command `mage up -d --build` is executed, is the same than typing `docker compose up -d --build` command.
