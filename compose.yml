@@ -5,9 +5,9 @@ services:
     build:
       context: .
       args:
-        - PHP_VERSION=${PHP_VERSION:-8.1}
+        - PHP_VERSION=${PHP_VERSION:-8.3}
     environment:
-      - PHP_VERSION=${PHP_VERSION:-8.1}
+      - PHP_VERSION=${PHP_VERSION:-8.3}
     ports:
       - ${WEB_PORT:-80}:80
       - 8000:8000
