@@ -1,0 +1,16 @@
+{
+    "recommendations": [
+        "ms-azuretools.vscode-docker",
+        "thomas-baumgaertner.vcl",
+        "ms-vscode-remote.vscode-remote-extensionpack",
+        "ahmadalli.vscode-nginx-conf",
+        "dotenv.dotenv-vscode",
+        "waderyan.gitblame",
+        "mhutchie.git-graph",
+        "ritwickdey.liveserver",
+        "ms-vsliveshare.vsliveshare",
+        "davidanson.vscode-markdownlint",
+        "natqe.reload",
+        "foxundermoon.shell-format"
+    ]
+}
