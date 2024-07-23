@@ -1,3 +1,4 @@
-/magento-app
+/var/*
+!/var/devcontainer.json.dist
 /.env
 /etc/linux/magento-setup-prod/vars.sh

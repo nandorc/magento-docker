@@ -28,7 +28,7 @@
 		"waderyan.gitblame"
 	],
     "settings": {
-        "intelephense.environment.phpVersion": "8.1.0",
+        "intelephense.environment.phpVersion": "8.3.0",
         "php.hover.fullname": true,
         "php.problems.exclude": {
             "app/": true,

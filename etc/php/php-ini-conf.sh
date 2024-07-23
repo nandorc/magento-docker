@@ -2,7 +2,7 @@
 
 # Get params
 declare webserver=
-declare php_version=8.1
+declare php_version=8.3
 while [ -n "${1}" ]; do
     if [ "${1}" == "--webserver" ]; then
         [ "${2}" != "apache" ] && [ "${2}" != "nginx" ] && echo -e "ERR~ target webserver must be apache or nginx" && exit 1
